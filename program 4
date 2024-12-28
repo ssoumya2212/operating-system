@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+#define N 5
+
+void philosopher(int id) {
+    printf("Philosopher %d is thinking.\n", id);
+    printf("Philosopher %d picks up fork %d and %d.\n", id, id, (id + 1) % N);
+    printf("Philosopher %d is eating.\n", id);
+    printf("Philosopher %d puts down fork %d and %d.\n", id, id, (id + 1) % N);
+}
+
+int main() {
+    for (int i = 0; i < N; i++) {
+        philosopher(i);
+    }
+    return 0;
+}
