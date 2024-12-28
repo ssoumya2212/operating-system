@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+
+int main() {
+    int fd = open("file.txt", O_CREAT | O_RDWR, 0644);
+    if (fd == -1) { perror("Error opening file"); return 1; }
+
+    int flags = fcntl(fd, F_GETFL);
+    printf("File flags: %d\n", flags);
+
+    lseek(fd, 5, SEEK_SET);
+
+    struct stat fileStat;
+    stat("file.txt", &fileStat);
+    printf("File size: %ld bytes\n", fileStat.st_size);
+
+    DIR *dir = opendir(".");
+    if (dir) {
+        struct dirent *entry;
+        while ((entry = readdir(dir)) != NULL) {
+            printf("File: %s\n", entry->d_name);
+        }
+        closedir(dir);
+    }
+
+    close(fd);
+    return 0;
+}
+OUTPUT:
+Error opening file: Permission denied
