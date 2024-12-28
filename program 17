@@ -1,0 +1,41 @@
+
+#include <stdio.h>
+
+#define P 5
+#define R 3
+
+int allocation[P][R] = {{0,1,0}, {2,0,0}, {3,3,2}, {2,1,1}, {0,0,2}};
+int max[P][R] = {{7,5,3}, {3,2,2}, {9,0,2}, {2,2,2}, {4,3,3}};
+int available[R] = {3,3,2}, need[P][R], work[R];
+int finish[P] = {0};
+
+int isSafe() {
+    for (int i = 0; i < P; i++) for (int j = 0; j < R; j++) need[i][j] = max[i][j] - allocation[i][j];
+    for (int i = 0; i < R; i++) work[i] = available[i];
+    while (1) {
+        int done = 0;
+        for (int i = 0; i < P; i++) {
+            if (!finish[i]) {
+                int canAllocate = 1;
+                for (int j = 0; j < R; j++) if (need[i][j] > work[j]) { canAllocate = 0; break; }
+                if (canAllocate) {
+                    for (int j = 0; j < R; j++) work[j] += allocation[i][j];
+                    finish[i] = 1;
+                    done = 1;
+                }
+            }
+        }
+        if (!done) break;
+    }
+    for (int i = 0; i < P; i++) if (!finish[i]) return 0;
+    return 1;
+}
+
+int main() {
+    if (isSafe()) printf("Safe\n");
+    else printf("Deadlock\n");
+    return 0;
+}
+
+output:
+safe
