@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <dirent.h>
+
+int main() {
+    DIR *dir = opendir(".");
+    struct dirent *entry;
+
+    if (dir == NULL) {
+        printf("Failed to open directory\n");
+        return 1;
+    }
+
+    int count = 0; // To count files
+    while ((entry = readdir(dir)) != NULL) {
+        printf("Found: %s\n", entry->d_name);  // Debugging output
+        if (entry->d_name[0] != '.') { // Skip hidden files
+            count++;
+        }
+    }
+
+    printf("Total non-hidden files: %d\n", count);  // Show the count
+    closedir(dir);
+    return 0;
+}
+ouput:
+Found: .
+Found: ..
+Found: .bash_logout
+Found: .bashrc
+Found: .profile
+Total non-hidden files: 0
+operating-system/Ex no:14 OS at main · vgngfyuhk/operating-system
