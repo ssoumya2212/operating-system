@@ -1,0 +1,28 @@
+#include <stdio.h>
+typedef struct { int pid, priority, completed; } Process;
+
+int main() {
+    Process p[10];
+    int n, i, c = 0, hp;
+
+    scanf("%d", &n);
+    for (i = 0; i < n; i++) {
+        scanf("%d", &p[i].priority);
+        p[i].pid = i + 1;
+        p[i].completed = 0;
+    }
+
+    while (c < n) {
+        hp = -1;
+        for (i = 0; i < n; i++) {
+            if (!p[i].completed && (hp == -1 || p[i].priority < p[hp].priority))
+                hp = i;
+        }
+        printf("Process %d executed\n", p[hp].pid);
+        p[hp].completed = 1;
+        c++;
+    }
+
+    return 0;
+}
+output:
