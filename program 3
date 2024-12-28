@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+void print(const char* msg) {
+    printf("%s\n", msg);
+}
+
+int main() {
+    print("Simulating Thread 1");
+    print("Simulating Thread 2");
+    return 0;
+}
+
+output:
+Simulating Thread 1
+Simulating Thread 2
