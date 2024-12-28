@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int main() {
+    int blocks[] = {100, 500, 200, 300, 600}, processes[] = {212, 417, 112, 426};
+    int n = 5, m = 4;
+    
+    for (int i = 0; i < m; i++) {
+        int best = -1;
+        for (int j = 0; j < n; j++)
+            if (blocks[j] >= processes[i] && (best == -1 || blocks[j] < blocks[best]))
+                best = j;
+        if (best != -1) {
+            printf("P%d -> B%d\n", i + 1, best + 1);
+            blocks[best] -= processes[i];
+        } else printf("P%d -> Not Allocated\n", i + 1);
+    }
+    return 0;
+}
+OUTPUT:
+P1 -> B4
+P2 -> B2
+P3 -> B3
+P4 -> B5
