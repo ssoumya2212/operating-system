@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <dirent.h>
+#include <string.h>
+
+void list_files(const char* dir_name) {
+    DIR *dir = opendir(dir_name);
+    struct dirent *entry;
+
+    if (dir == NULL) {
+        printf("Failed to open directory\n");
+        return;
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+        if (entry->d_name[0] != '.') // Skip hidden files
+            printf("%s/%s\n", dir_name, entry->d_name);
+    }
+
+    closedir(dir);
+}
+
+int main() {
+    list_files("."); // List files in the current directory
+
+    // List files in a subdirectory (example: "subdir")
+    list_files("subdir");
+
+    return 0;
+}
+
+ouput:
+Failed to open directory
