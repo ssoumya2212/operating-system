@@ -1,0 +1,30 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <semaphore.h>
+#include <unistd.h>
+
+int shared_data = 0;
+sem_t mutex;
+
+void increment(int process_id) {
+    sem_wait(&mutex);
+    shared_data++;
+    printf("Process %d incremented shared_data to %d\n", process_id, shared_data);
+    sem_post(&mutex);
+}
+
+int main() {
+    sem_init(&mutex, 0, 1);
+
+    if (fork() == 0) {
+        increment(1);
+        exit(0);
+    } else {
+        increment(2);
+    }
+
+    sem_destroy(&mutex);
+    return 0;
+}
+output:
